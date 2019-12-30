@@ -65,3 +65,33 @@ const remove = (arr, item) => {
     }
   }
 }
+
+// 检查值是否是有效的数组索引
+const isValidArrayIndex = val => {
+  const n = parseFloat(String(val))
+  return n >= 0 && Math.floor(n) === n && isFinite(val)
+}
+
+const isPromise = val => {
+  return (
+    isDef(val) &&
+    typeof val.then === 'function' &&
+    typeof val.catch === 'function'
+  )
+}
+
+// 将输入值转换为数字以保持持久性, 如果转换失败，返回原始字符串
+const toNumber = val => {
+  const n = parseFloat(val)
+  return isNaN(n) ? val : n
+}
+
+// 将类似数组的对象转换为实际数组
+const toArray = (list, start = 0) => {
+  let i = list.length - start
+  let ret = new Array(i)
+  while (i--) {
+    ret[i] = list[i + start]
+  }
+  return ret
+}
