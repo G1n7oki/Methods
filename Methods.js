@@ -95,3 +95,15 @@ const toArray = (list, start = 0) => {
   }
   return ret
 }
+
+// 验证手机号
+const isPhone = val => {
+  const reg = /^1[3456789]\d{9}$/
+  return reg.test(val)
+}
+
+// 验证国内车牌
+const isLicense = val => {
+  const reg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/
+  return reg.test(val)
+}
