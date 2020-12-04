@@ -102,6 +102,12 @@ const isMobile = val => {
   return reg.test(val)
 }
 
+// 验证身份证
+const isIdentity = val => {
+	const reg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
+	return reg.test(val)
+}
+
 // 验证国内车牌
 const isLicense = val => {
   const reg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/
@@ -302,4 +308,20 @@ const parsePath = path => {
     }
     return obj
   }
+}
+
+// 生成当前日期向前推7天的时间
+const generateWeekly = () => {
+	let week = []
+	// 得到当前的时间戳
+	const timestamp = Date.now()
+	// 循环获得当前时间向前推7天的时间戳
+	Array.from(new Array(7)).map((_, i) => {
+		const weekTimestamp = new Date(timestamp - i * 24 * 60 * 60 * 1000)
+		// 整成自己需要的样式
+		const date = String(weekTimestamp.getMonth() + 1) + '.' + String(new Date(weekTimestamp).getDate())
+		// 倒序插入
+		week.unshift(date)
+	})
+	return week
 }
