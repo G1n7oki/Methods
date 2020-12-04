@@ -312,16 +312,37 @@ const parsePath = path => {
 
 // 生成当前日期向前推7天的时间
 const generateWeekly = () => {
-	let week = []
-	// 得到当前的时间戳
-	const timestamp = Date.now()
-	// 循环获得当前时间向前推7天的时间戳
-	Array.from(new Array(7)).map((_, i) => {
-		const weekTimestamp = new Date(timestamp - i * 24 * 60 * 60 * 1000)
-		// 整成自己需要的样式
-		const date = String(weekTimestamp.getMonth() + 1) + '.' + String(new Date(weekTimestamp).getDate())
-		// 倒序插入
-		week.unshift(date)
-	})
-	return week
+  let week = []
+  // 得到当前的时间戳
+  const timestamp = Date.now()
+  // 循环获得当前时间向前推7天的时间戳
+  Array.from(new Array(7)).map((_, i) => {
+    const weekTimestamp = new Date(timestamp - i * 24 * 60 * 60 * 1000)
+    // 整成自己需要的样式
+    const date = String(weekTimestamp.getMonth() + 1) + '.' + String(new Date(weekTimestamp).getDate())
+    // 倒序插入
+    week.unshift(date)
+  })
+  return week
+}
+
+// 格式化金额
+export function formatMoney(n) {
+  const num = n.toString()
+  let decimals = ''
+  // 判断是否有小数
+  num.indexOf('.') > -1 ? decimals = num.split('.')[1] : decimals
+  const len = num.length
+  if (len < 3) {
+    return num
+  } else {
+    let temp = ''
+    const remainder = len % 3
+    decimals ? temp = '.' + decimals : temp
+    if (remainder > 0) { // 不是3的整数倍
+      return num.slice(0, remainder) + ',' + num.slice(remainder, len).match(/\d{3}/g).join(',') + temp
+    } else { // 是3的整数倍
+      return num.slice(0, len).match(/\d{3}/g).join(',') + temp
+    }
+  }
 }
