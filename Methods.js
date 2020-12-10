@@ -327,7 +327,7 @@ const generateWeekly = () => {
 }
 
 // 格式化金额
-export function formatMoney(n) {
+const formatMoney = n => {
   const num = n.toString()
   let decimals = ''
   // 判断是否有小数
@@ -343,6 +343,20 @@ export function formatMoney(n) {
       return num.slice(0, remainder) + ',' + num.slice(remainder, len).match(/\d{3}/g).join(',') + temp
     } else { // 是3的整数倍
       return num.slice(0, len).match(/\d{3}/g).join(',') + temp
+    }
+  }
+}
+
+// 冒泡排序
+const bubbleSort = arr => {
+  const len = arr.length
+  for (let i = 0; i < len - 1; i++) {
+    for (let j = 0; j < len - 1 - i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        const temp = arr[j + 1]
+	arr[j + 1] = arr[j]
+	arr[j] = temp
+      }
     }
   }
 }
