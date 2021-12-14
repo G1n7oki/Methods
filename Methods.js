@@ -1,37 +1,54 @@
 'use strict'
 
-// 获取精准类型
+/**
+ * 获取精准类型
+ */
 const toRawType = (obj) => {
   return Object.prototype.toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase()
 }
 
-// 返回undefined或者null类型
+/**
+ * 返回undefined或者null类型
+ */
 const isUndef = (v) => {
   return v === undefined || v === null
 }
 
 
-// 返回非undefined和null类型
+/**
+ * 返回非undefined和null类型
+ */
 const isDef = (v) => {
   return v !== undefined && v !== null
 }
 
-// 验证是否为真
+/**
+ * 验证是否为真
+ */
 const isTrue = (v) => {
   return v === true
 }
 
-// 验证是否为假
+/**
+ * 验证是否为假
+ */
 const isFalse = (v) => {
   return v === false
 }
 
-// 验证是否是对象类型
-const isObject = (v) => {
+/**
+ * 验证是否是对象类型
+ * @param {object} obj
+ */
+const isObject = (obj) => {
   return obj !== null && typeof obj === 'object'
 }
 
-// 将属性混合到目标对象中
+/**
+ * 将属性混合到目标对象中
+ * @param {object} to
+ * @param {object} _from
+ */
 const extend = (to, _from) => {
   for (let key in _from) {
     to[key] = _from[key]
@@ -39,7 +56,10 @@ const extend = (to, _from) => {
   return to
 }
 
-// 将一个对象数组合并到一个对象中
+/**
+ * 将一个对象数组合并到一个对象中
+ * @param {array} arr
+ */
 const toObject = (arr) => {
   let res = {}
   for (let i = 0; i < arr.length; i++) {
@@ -50,13 +70,21 @@ const toObject = (arr) => {
   return res
 }
 
-// 检查对象是否具有该属性
+/**
+ * 检查对象是否具有该属性
+ * @param {object} obj
+ * @param {number} key
+ */
 const hasOwnProperty = Object.prototype.hasOwnProperty
 const hasOwn = (obj, key) => {
   return hasOwnProperty.call(boj, key)
 }
 
-// 从数组中删除项
+/**
+ * 从数组中删除项
+ * @param {array} arr
+ * @param {number} item
+ */
 const remove = (arr, item) => {
   if (arr.length) {
     const index = arr.indexOf(item)
@@ -66,12 +94,19 @@ const remove = (arr, item) => {
   }
 }
 
-// 检查值是否是有效的数组索引
+/**
+ * 检查值是否是有效的数组索引
+ * @param {number} val
+ */
 const isValidArrayIndex = val => {
   const n = parseFloat(String(val))
   return n >= 0 && Math.floor(n) === n && isFinite(val)
 }
 
+/**
+ * 是否为promise类型
+ * @param {string} val
+ */
 const isPromise = val => {
   return (
     isDef(val) &&
@@ -80,13 +115,20 @@ const isPromise = val => {
   )
 }
 
-// 将输入值转换为数字以保持持久性, 如果转换失败，返回原始字符串
+/**
+ * 将输入值转换为数字以保持持久性, 如果转换失败，返回原始字符串
+ * @param {number} val
+ */
 const toNumber = val => {
   const n = parseFloat(val)
   return isNaN(n) ? val : n
 }
 
-// 将类似数组的对象转换为实际数组
+/**
+ * 将类似数组的对象转换为实际数组
+ * @param {array} list
+ * @param {number} start
+ */
 const toArray = (list, start = 0) => {
   let i = list.length - start
   let ret = new Array(i)
@@ -96,50 +138,73 @@ const toArray = (list, start = 0) => {
   return ret
 }
 
-// 验证手机号
+/**
+ * 验证手机号
+ * @param {string} val
+ */
 const isMobile = val => {
   const reg = /^1[3456789]\d{9}$/
   return reg.test(val)
 }
 
-// 验证身份证
+/**
+ * 验证身份证
+ * @param {string} val
+ */
 const isIdentity = val => {
 	const reg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
 	return reg.test(val)
 }
 
-// 验证国内车牌
+/**
+ * 验证国内车牌
+ * @param {string} val
+ */
 const isLicense = val => {
   const reg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/
   return reg.test(val)
 }
 
-// 验证邮箱
-const isEmial = val => {
+/**
+ * 验证邮箱
+ * @param {string} val
+ */
+const isEmail = val => {
   const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((.[a-zA-Z0-9_-]{2,3}){1,2})$/
   return reg.test(val)
 }
 
-// 验证电话号码
+/**
+ * 验证电话号码
+ * @param {string} val
+ */
 const isPhone = val => {
   const reg = /^([0-9]{3,4}-)?[0-9]{7,8}$/
   return reg.test(val)
 }
 
-// 验证url
+/**
+ * 验证url
+ * @param {string} val
+ */
 const isUrl = val => {
   const reg = /^http[s]?:\/\/.*/
   return reg.test(val)
 }
 
-// 验证是否为移动端
+/**
+ * 验证是否为移动端
+ * @param {string} str
+ */
 const isDeviceMobile = () => {
   const ua = navigator.userAgent.toLowerCase()
   const reg = /android|webos|iphone|ipod|blackberry/
   return reg.test(ua)
 }
 
-// 检测ios设备类型
+/**
+ * 检测ios设备类型
+ */
 const isIos = () => {
   const u = navigator.userAgent
   if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) { // 安卓手机
@@ -155,7 +220,10 @@ const isIos = () => {
   }
 }
 
-// 是否为pc端
+/**
+ * 是否为pc端
+ * @param {string} str
+ */
 const isPC = () => {
   const userAgentInfo = navigator.userAgent;
   const Agents = ["Android", "iPhone",
@@ -171,26 +239,40 @@ const isPC = () => {
   return flag
 }
 
-// 去除html标签
+/**
+ * 去除html标签
+ * @param {string} str
+ */
 const removeHtmltag = str => {
   return str.replace(/<[^>]+>/g, '')
 }
 
-// 获取url参数
-const getQueryString = name => {
+/**
+ * 获取url参数
+ * @param {string} name
+ */
+const getQueryString = (name) => {
   const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
   const search = window.localtion.search.split('?')[1] || ''
   const r = search.match(reg) || []
   return r[2]
 }
 
-// el是否包含某个class
+/**
+ * el是否包含某个class
+ * @param {window} el
+ * @param {string} className
+ */
 const hasClass = (el, className) => {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
 }
 
-// el添加某个class
+/**
+ * el添加某个class
+ * @param {window} el
+ * @param {string} className
+ */
 const addClass = (el, className) => {
   if (hasClass(el, className)) {
     return
@@ -200,7 +282,11 @@ const addClass = (el, className) => {
   el.className = newClass.join(' ')
 }
 
-// el去除某个class
+/**
+ * el去除某个class
+ * @param {window} el
+ * @param {string} className
+ */
 const removeClass = (el, className) => {
   if (!hasClass(el, className)) {
     return
@@ -209,13 +295,18 @@ const removeClass = (el, className) => {
   el.className = el.className.replace(reg, ' ')
 }
 
-// 获取滚动的坐标
+/**
+ * 获取滚动的坐标
+ * @param {window} el
+ */
 const getScrollPosition = (el = window) => ({
   x: el.pageXOffset !== undefined ? el.pageXOffset : el.scrollLeft,
   y: el.pageYOffset !== undefined ? el.pageYOffset : el.scrollTop
 })
 
-// 滚动到顶部
+/**
+ * 滚动到顶部
+ */
 const scrollToTop = () => {
   const c = document.documentElement.scrollTop || document.body.scrollTop
   if (c > 0) {
@@ -224,7 +315,11 @@ const scrollToTop = () => {
   }
 }
 
-// 随机数范围
+/**
+ * 随机数范围
+ * @param {number} min
+ * @param {number} max
+ */
 const random = (min, max) => {
   if (arguments.length === 2) {
     return Math.floor(min + Math.random() * ((max + 1) - min))
@@ -233,17 +328,27 @@ const random = (min, max) => {
   }
 }
 
-// 最大值
-const max = arr => {
+/**
+ * 最大值
+ * @param {array} arr
+ */
+const max = (arr) => {
   return Math.max.apply(null, arr)
 }
 
-// 最小值
-const min = arr => {
+/**
+ * 最小值
+ * @param {array} arr
+ */
+const min = (arr) => {
   return Math.min.apply(null, arr)
 }
 
-// 去除空格
+/**
+ * 去除空格
+ * @param {string} str
+ * @param {number} type
+ */
 const trim = (str, type = 1) => {
   switch (type) {
     case 1:
@@ -259,7 +364,10 @@ const trim = (str, type = 1) => {
   }
 }
 
-// 检测密码强度
+/**
+ * 检测密码强度
+ * @param {string} str
+ */
 const checkPwd = str => {
   let lv = 0
   if (str.length < 6) {
@@ -280,7 +388,10 @@ const checkPwd = str => {
   return lv
 }
 
-// 确保一个函数只被调用一次
+/**
+ * 确保一个函数只被调用一次
+ * @param {function} fn
+ */
 const once = fn => {
   let called = false
   return function () {
@@ -291,7 +402,10 @@ const once = fn => {
   }
 }
 
-// 解析简单路径
+/**
+ * 解析简单路径
+ * @param {string} path
+ */
 const parsePath = path => {
   const bailRE = /[^\w.$]/
   if (bailRE.test(path)) {
@@ -310,7 +424,9 @@ const parsePath = path => {
   }
 }
 
-// 生成当前日期向前推7天的时间
+/**
+ * 生成当前日期向前推7天的时间
+ */
 const generateWeekly = () => {
   let week = []
   // 得到当前的时间戳
@@ -326,28 +442,63 @@ const generateWeekly = () => {
   return week
 }
 
-// 格式化金额
-const formatMoney = n => {
-  const num = n.toString()
-  let decimals = ''
-  // 判断是否有小数
-  num.indexOf('.') > -1 ? decimals = num.split('.')[1] : decimals
-  const len = num.length
-  if (len < 3) {
-    return num
-  } else {
-    let temp = ''
-    const remainder = len % 3
-    decimals ? temp = '.' + decimals : temp
-    if (remainder > 0) { // 不是3的整数倍
-      return num.slice(0, remainder) + ',' + num.slice(remainder, len).match(/\d{3}/g).join(',') + temp
-    } else { // 是3的整数倍
-      return num.slice(0, len).match(/\d{3}/g).join(',') + temp
+/**
+ * 格式化金额
+ * @param {number} num
+ */
+const formatMoney = (num) => {
+	return (+num || 0).toString().replace(/^-?\d+/g, m => m.replace(/(?=(?!\b)(\d{3})+$)/g, ','))
+}
+
+/**
+ * 格式化单位
+ * @param {string} num
+ * @param {number} digits 保留的小数点位数
+ */
+const formatUnit = (num, digits) => {
+	const si = [
+    { value: 1E18, symbol: 'E' },
+    { value: 1E15, symbol: 'P' },
+    { value: 1E12, symbol: 'T' },
+    { value: 1E9, symbol: 'G' },
+    { value: 1E6, symbol: 'M' },
+    { value: 1E3, symbol: 'k' }
+  ]
+  for (let i = 0; i < si.length; i++) {
+    if (num >= si[i].value) {
+      return (num / si[i].value).toFixed(digits).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + si[i].symbol
     }
+  }
+  return num.toString()
+}
+
+/**
+ * 第一个字母大写
+ * @param {string} string
+ */
+const uppercaseFirst = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+/**
+ * 格式化时间
+ * @param {number} time
+ */
+const timeAgo = (time) => {
+  const between = Date.now() / 1000 - Number(time)
+  if (between < 3600) {
+    return pluralize(~~(between / 60), ' minute')
+  } else if (between < 86400) {
+    return pluralize(~~(between / 3600), ' hour')
+  } else {
+    return pluralize(~~(between / 86400), ' day')
   }
 }
 
-// 冒泡排序
+/**
+ * 冒泡排序
+ * @param {array} arr
+ */
 const bubbleSort = arr => {
   const len = arr.length
   for (let i = 0; i < len - 1; i++) {
@@ -362,7 +513,10 @@ const bubbleSort = arr => {
 	return arr
 }
 
-// 选择排序
+/**
+ * 选择排序
+ * @param {array} arr
+ */
 const selectedSort = arr => {
 	const len = arr.length
 	let min, temp
@@ -380,7 +534,10 @@ const selectedSort = arr => {
 	return arr
 }
 
-// 插入排序
+/**
+ * 插入排序
+ * @param {array} arr
+ */
 const insertionSort = arr => {
   const len = arr.length
   let preIndex, current
@@ -396,7 +553,9 @@ const insertionSort = arr => {
   return arr
 }
 
-// 归并排序
+/**
+ * 归并排序
+ */
 const merge = (left, right) => {
   let result = []
   while (left.length > 0 && right.length > 0) {
@@ -426,7 +585,9 @@ const mergeSort = arr => { // 采用自上而下的递归方法
   return merge(mergeSort(left), mergeSort(right))
 }
 
-// 快速排序
+/**
+ * 快速排序
+ */
 class QuickSort {
   constructor() {}
   // 分区操作
