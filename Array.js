@@ -57,3 +57,18 @@ const alone = (arr1, arr2) => {
 const trueArr = arr => {
   return arr.filter(true)
 }
+
+/**
+ * 洗牌算法随机
+ * @param arr
+ * @return {*[]}
+ */
+const shuffle = arr => {
+  let result = [], random
+  while (arr.length > 0) {
+    random = Math.floor(Math.random() * arr.length)
+    result.push(arr[random])
+    arr.splice(random, 1)
+  }
+  return result
+}
