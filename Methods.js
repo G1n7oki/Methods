@@ -159,3 +159,48 @@ const generateWeekly = () => {
   })
   return week
 }
+
+/**
+ * 解析字符串的风格
+ * @param cssText
+ * @return {{}}
+ */
+const listDelimiterRE = /;(?![^(]*\))/g
+const propertyDelimiterRE = /:(.+)/
+const parseStringStyle = (cssText) => {
+  const ret = {}
+  cssText.split(listDelimiterRE).forEach(item => {
+    if (item) {
+      const tmp = item.split(propertyDelimiterRE)
+      tmp.length > 1 && (ret[tmp[0].trim()] = tmp[1].trim())
+    }
+  })
+  return ret
+}
+
+/**
+ * 连接符转为驼峰 hello-world => helloWorld
+ * @param str
+ * @return {*}
+ */
+const camelize = (str) => {
+  return str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''))
+}
+
+/**
+ * 首字母大写 hello => Hello
+ * @param str
+ * @return {string}
+ */
+const capitalize = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+/**
+ * 去除连接符 o-h => oh
+ * @param str
+ * @return {string}
+ */
+const hyphenate = (str) => {
+ return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
+}

@@ -218,3 +218,12 @@ const checkPwd = str => {
   }
   return lv
 }
+
+/**
+ * 检测值是否不为Undefined和Null或者为空
+ * @param value
+ * @return {boolean}
+ */
+const includeBooleanAttr = value => {
+  return !!value || value === ''
+}
