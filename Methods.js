@@ -204,3 +204,7 @@ const capitalize = (str) => {
 const hyphenate = (str) => {
  return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
 }
+
+const mobileNumberSplit = (mobile, symbol) => {
+  return mobile.replace(/(?<=\d)(?=(\d{4})+(?!\d))/g, symbol)
+}
