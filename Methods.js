@@ -230,3 +230,18 @@ const injectScript = (src) => {
 const isLeapYear = (year) => {
   return ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0)
 }
+
+const cutstr = (str, len) => {
+  let temp, icount = 0, strre = ''
+  const patrn = /[^\x00-\xff]/
+  for(let i = 0; i < str.length; i++) {
+    if (icount < len - 1) {
+      temp = str.substr(i, 1)
+      icount = patrn.exec(temp) === null ? icount + 1 : icount + 2
+      strre += temp
+    } else {
+      break
+    }
+  }
+  return `${strre}...`
+}
