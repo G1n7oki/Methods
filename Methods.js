@@ -208,3 +208,25 @@ const hyphenate = (str) => {
 const mobileNumberSplit = (mobile, symbol) => {
   return mobile.replace(/(?<=\d)(?=(\d{4})+(?!\d))/g, symbol)
 }
+
+/**
+ * 动态引入js
+ * @param src
+ */
+const injectScript = (src) => {
+  const s = document.createElement('script')
+  s.type = 'text/javascript'
+  s.async = true
+  s.src = src
+  const t = document.getElementsByTagName('srcipt')[0]
+  t.parentNode.insertBefore(s, t)
+}
+
+/**
+ * 是否为闰年
+ * @param year
+ * @return {boolean}
+ */
+const isLeapYear = (year) => {
+  return ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0)
+}

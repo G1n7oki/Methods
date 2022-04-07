@@ -72,3 +72,21 @@ const shuffle = arr => {
   }
   return result
 }
+
+/**
+ * 数组求和
+ * @param arr
+ * @return {*}
+ */
+const sum = (arr) => {
+  return arr.reduce((a, b) => a + b, 0)
+}
+
+/**
+ * 数组求平均值
+ * @param arr
+ * @return {number}
+ */
+const average = (arr) => {
+  return arr.reduce((a, b) => a + b, 0) / arr.length
+}
