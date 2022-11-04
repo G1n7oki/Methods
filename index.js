@@ -1043,4 +1043,82 @@ const isValid = (s) => {
   return !stk.length
 }
 
+/**
+ * 删除有序数组中的重复项
+ * @param {number[]} nums
+ * @return {number}
+ */
+const removeDuplicates = (nums) => {
+  const n = nums.length
+  if (n === 0) {
+    return 0
+  }
+  let fast = 1,
+    slow = 1
+  while (fast < n) {
+    if (nums[fast] !== nums[fast - 1]) {
+      nums[slow] = nums[fast]
+      ++slow
+    }
+    ++fast
+  }
+  return slow
+}
 
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+const removeElement = (nums, val) => {
+  const n = nums.length
+  let left = 0
+  for (let right = 0; right < n; right++) {
+    if (nums[right] !== val) {
+      nums[left] = nums[right]
+      left++
+    }
+  }
+  return left
+}
+
+/**
+ * 搜索插入位置
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+const searchInsert = (nums, target) => {
+  const n = nums.length
+  let left = 0,
+    right = n - 1,
+    ans = n
+  while (left <= right) {
+    let mid = ((right - left) >> 1) + left
+    if (target <= nums[mid]) {
+      ans = mid
+      right = mid - 1
+    } else {
+      left = mid + 1
+    }
+  }
+  return ans
+}
+
+/**
+ * 最后一个单词的长度
+ * @param {string} s
+ * @return {number}
+ */
+const lengthOfLastWord = (s) => {
+  let index = s.length - 1
+  while (s[index] === ' ') {
+    index--
+  }
+  let wordLength = 0
+  while (index >= 0 && s[index] !== ' ') {
+    wordLength++
+    index--
+  }
+  return wordLength
+}
