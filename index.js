@@ -1241,7 +1241,7 @@ const filteredArr = (arr) => {
 /**
  * 根据运算优先级添加括号
  * @param {*} expression
- * @return
+ * @returns {string}
  */
 const addBrackets = (expression) => {
   const resultArr = []
@@ -1294,4 +1294,168 @@ const addBrackets = (expression) => {
     resultArr.push(currentNum + (isInBracket ? ')' : ''))
   }
   return resultArr.join('')
+}
+
+/**
+ * 浅拷贝
+ * @param {object} obj
+ * @returns {{}}
+ */
+const shallowClone = (obj) => {
+  const newObj = {}
+  for(let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      newObj[prop] = obj[prop]
+    }
+  }
+  return newObj
+}
+
+/**
+ * 深拷贝
+ * @param {object}  obj
+ * @param {*} hash
+ * @returns {RegExp|*|Date}
+ */
+const deepClone = (obj, hash = new WeakMap()) => {
+  if (obj === null) return obj // 如果是null或者undefined我就不进行拷贝操作
+  if (obj instanceof Date) return new Date(obj)
+  if (obj instanceof RegExp) return new RegExp(obj)
+  // 可能是对象或者普通的值  如果是函数的话是不需要深拷贝
+  if (typeof obj !== 'object') return obj
+  // 是对象的话就要进行深拷贝
+  if (hash.get(obj)) return hash.get(obj)
+  let cloneObj = new obj.constructor()
+  // 找到的是所属类原型上的constructor, 而原型上的 constructor指向的是当前类本身
+  hash.set(obj, cloneObj)
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      // 实现一个递归拷贝
+      cloneObj[key] = deepClone(obj[key], hash)
+    }
+  }
+  return cloneObj
+}
+
+/**
+ * 阿拉伯数字转中文数字
+ * @param num
+ * @returns {string}
+ * @constructor
+ */
+function NoToChinese(num) {
+  if (/^\d*(\.\d*)?$/.test(num)) {
+    return 'Number is wrong!'
+  }
+  const AA = new Array('零', '一', '二', '三', '四', '五', '六', '七', '八', '九')
+  const BB = new Array('', '十', '百', '千', '万', '亿', '点', '')
+  let a = ('' + num).replace(/(^0*)/g, '').split('.'),
+    k = 0,
+    re = ''
+  for (var i = a[0].length - 1; i >= 0; i--) {
+    switch (k) {
+      case 0:
+        re = BB[7] + re
+        break
+      case 4:
+        if (!new RegExp('0{4}\\d{' + (a[0].length - i - 1) + '}$').test(a[0])) re = BB[4] + re
+        break
+      case 8:
+        re = BB[5] + re
+        BB[7] = BB[5]
+        k = 0
+        break
+    }
+    if (k % 4 == 2 && a[0].charAt(i + 2) != 0 && a[0].charAt(i + 1) == 0) re = AA[0] + re
+    if (a[0].charAt(i) != 0) re = AA[a[0].charAt(i)] + BB[k % 4] + re
+    k++
+  }
+  if (a.length > 1) {
+    //加上小数部分(如果有小数部分)
+    re += BB[6]
+    for (var i = 0; i < a[1].length; i++) re += AA[a[1].charAt(i)]
+  }
+  return re
+}
+
+/**
+ * 实现jsonp
+ * @param url
+ * @param params
+ * @param callbackName
+ * @returns {Promise<unknown>}
+ */
+const jsonp = ({ url, params, callbackName }) => {
+  const generateUrl = () => {
+    let dataSrc = ''
+    for (let key in params) {
+      if (params.hasOwnProperty(key)) {
+        dataSrc += `${key}=${params[key]}&`
+      }
+    }
+    dataSrc += `callback=${callbackName}`
+    return `${url}?${dataSrc}`
+  }
+  return new Promise((resolve, reject) => {
+    const scriptEle = document.createElement('script')
+    scriptEle.src = generateUrl()
+    document.body.appendChild(scriptEle)
+    window[callbackName] = (data) => {
+      resolve(data)
+      document.removeChild(scriptEle)
+    }
+  })
+}
+
+/**
+ * 节流
+ * @param fn
+ * @param delay
+ * @returns {(function(): void)|*}
+ */
+const throttled = (fn, delay) => {
+  let timer = null
+  let starttime = Date.now()
+  return function () {
+    let curTime = Date.now() // 当前时间
+    let remaining = delay - (curTime - starttime)  // 从上一次到现在，还剩下多少多余时间
+    let context = this
+    let args = arguments
+    clearTimeout(timer)
+    if (remaining <= 0) {
+      fn.apply(context, args)
+      starttime = Date.now()
+    } else {
+      timer = setTimeout(fn, remaining);
+    }
+  }
+}
+
+/**
+ * 防抖
+ * @param func
+ * @param wait
+ * @param immediate
+ * @returns {(function(): void)|*}
+ */
+const debounce = (func, wait, immediate) => {
+  let timeout
+  return function () {
+    let context = this
+    let args = arguments
+    if (timeout) clearTimeout(timeout) // timeout 不为null
+    if (immediate) {
+      let callNow = !timeout // 第一次会立即执行，以后只有事件执行后才会再次触发
+      timeout = setTimeout(function () {
+        timeout = null
+      }, wait)
+      if (callNow) {
+        func.apply(context, args)
+      }
+    } else {
+      timeout = setTimeout(function () {
+        func.apply(context, args)
+      }, wait)
+    }
+  }
 }
