@@ -1181,3 +1181,117 @@ const climbStairs = (n) => {
   }
   return r
 }
+
+/**
+ * 无重复字符的最长子串
+ * @param {string} s
+ * @return {number}
+ */
+const lengthOfLongestSubstring = (s) => {
+  const occ = new Set()
+  const n = s.length
+  let rk = -1,
+    ans = 0
+  for (let i = 0; i < n; i++) {
+    if (i != 0) {
+      occ.delete(s.charAt(i - 1))
+    }
+    while (rk + 1 < n && !occ.has(s.charAt(rk + 1))) {
+      occ.add(s.charAt(rk + 1))
+      ++rk
+    }
+    ans = Math.max(ans, rk - i + 1)
+  }
+  return ans
+}
+
+/**
+ * 寻找两个正序数组的中位数
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+const findMedianSortedArrays = (nums1, nums2) => {
+  const arr = [...nums1, ...nums2].sort((a, b) => a - b)
+  const len = arr.length
+  return len % 2 ? arr[Math.floor(len / 2)] : (arr[len / 2] + arr[len / 2 - 1]) / 2
+}
+
+/**
+ * 获取资源后缀
+ * @param {string} url
+ * @return {string}
+ */
+const getFileExtension = (url) => {
+  if (typeof url !== 'string') {
+    return ''
+  }
+  return url.substring(url.lastIndexOf('.') + 1)
+}
+
+/**
+ * 使用正则表达式实现一下需求: 筛选出数组中只包含大小写字母的字符串, 并将结果转换成大写
+ * @param {Array} arr
+ * @returns
+ */
+const filteredArr = (arr) => {
+  return arr.filter((item) => /^[a-zA-Z]+$/.test(item)).map((item) => item.toUpperCase())
+}
+
+/**
+ * 根据运算优先级添加括号
+ * @param {*} expression
+ * @return
+ */
+const addBrackets = (expression) => {
+  const resultArr = []
+  // 定义运算符
+  const symbolArr = ['+', '-', '*', '/']
+  // 定义高优先级运算符
+  const highLevelSymbolArr = ['*', '/']
+  // 判断某个字符串是否是运算符
+  const isSymbolFn = (str) => symbolArr.includes(str)
+  // 判断某个字符串是否是高优先级运算符
+  const isHighLevelSymbolFn = (str) => highLevelSymbolArr.includes(str)
+  // 输入表达式的长度
+  const expLen = expression.length
+  // 标记当前的遍历是否处于高优先级运算符范围
+  let isInBracket = false
+  // 记录临时值
+  let currentNum = ''
+  for (let i = 0; i < expLen; i++) {
+    const isSymbol = isSymbolFn(expression[i])
+    const isHighLevelSymbol = isSymbol && isHighLevelSymbolFn(expression[i])
+    // 处理当前字符是运算符的场景
+    if (isSymbol) {
+      // 处理当前字符是高优先级运算符
+      if (isHighLevelSymbol) {
+        // 如果当前没有被标记为高优先运算符，就在前面加个括号
+        if (!isInBracket) {
+          currentNum = '(' + currentNum
+        }
+        // 修改标记状态
+        isInBracket = true
+        currentNum += expression[i]
+      } else {
+        // 普通运算符
+        if (isInBracket) {
+          // 如果之前已经在高优先级运算符范围，就需要标记结束
+          resultArr.push(currentNum + ')')
+          isInBracket = false
+        } else {
+          resultArr.push(currentNum)
+        }
+        resultArr.push(expression[i])
+        currentNum = ''
+      }
+    } else {
+      // 如果是数字, 就直接进行记录
+      currentNum = currentNum + expression[i]
+    }
+  }
+  if (currentNum) {
+    resultArr.push(currentNum + (isInBracket ? ')' : ''))
+  }
+  return resultArr.join('')
+}
