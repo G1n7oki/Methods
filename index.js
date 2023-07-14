@@ -1459,3 +1459,155 @@ const debounce = (func, wait, immediate) => {
     }
   }
 }
+
+/**
+ * 生成数组
+ * @param n
+ * @returns {number[]}
+ */
+const createArr = (n) => Array.from(new Array(n), (v, i) => i)
+
+/**
+ * 打乱数组
+ * @param list
+ * @returns {*}
+ */
+const randomSort = list => list.sort(() => Math.random() - 0.5)
+
+/**
+ * 数组唯一值去重
+ * @param list
+ * @returns {*[]}
+ */
+const duplicateById = list => [...list.reduce((prev, cur) => prev.set(cur.id, cur), new Map()).values()]
+
+/**
+ * 多数组取交集
+ * @param list
+ * @returns {*[]}
+ */
+const duplicateById = list => [...list.reduce((prev, cur) => prev.set(cur.id, cur), new Map()).values()]
+
+/**
+ * 查找最大值索引
+ * @param arr
+ * @returns {*}
+ */
+const indexOfMax = (arr) => arr.reduce((prev, curr, i, a) => (curr > a[prev] ? i : prev), 0)
+
+/**
+ * 查找最小索引
+ * @param arr
+ * @returns {*}
+ */
+const indexOfMin = (arr) => arr.reduce((prev, curr, i, a) => (curr < a[prev] ? i : prev), 0)
+
+/**
+ * 找到最接近的数值
+ * @param arr
+ * @param n
+ * @returns {*}
+ */
+const closest = (arr, n) => arr.reduce((prev, curr) => (Math.abs(curr - n) < Math.abs(prev - n) ? curr : prev))
+
+/**
+ * 压缩多个数组
+ * @param arr
+ * @returns {*[][]}
+ */
+const zip = (...arr) => Array.from({ length: Math.max(...arr.map((a) => a.length)) }, (_, i) => arr.map((a) => a[i]))
+
+/**
+ * 矩阵交换行和列
+ * @param matrix
+ * @returns {*}
+ */
+const transpose = (matrix) => matrix[0].map((col, i) => matrix.map((row) => row[i]))
+
+/**
+ * 回到顶部
+ * @param element
+ */
+const scrollToTop = (element) =>
+  element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
+/**
+ * 回到底部
+ * @param element
+ */
+const scrollToBottom = (element) =>
+  element.scrollIntoView({ behavior: 'smooth', block: 'end' })
+
+/**
+ * 截断数字非四舍五入
+ * @param n
+ * @param fixed
+ * @returns {string}
+ */
+const toFixed = (n, fixed) => `${n}`.match(new RegExp(`^-?\d+(?:.\d{0,${fixed}})?`))[0]
+
+/**
+ * 截断数字并四舍五入
+ * @param n
+ * @param decimals
+ * @returns {number}
+ */
+const round = (n, decimals = 0) => Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`)
+
+/**
+ * 删除无效的属性
+ * @param obj
+ * @returns {{}|*}
+ */
+const removeNullUndefined = (obj) => Object.entries(obj).reduce((a, [k, v]) => (v == null ? a : ((a[k] = v), a)), {})
+
+/**
+ * 反转对象键值
+ * @param obj
+ * @returns {{[p: number]: *}}
+ */
+const invert = (obj) => Object.keys(obj).reduce((res, k) => Object.assign(res, { [obj[k]]: k }), {})
+
+/**
+ * 字符串转对象
+ * @param str
+ * @returns {any}
+ */
+const strParse = (str) => JSON.parse(str.replace(/(\w+)\s*:/g, (_, p1) => `"${p1}":`).replace(/\'/g, "\""))
+
+/**
+ * 比较两个对象
+ * @param objects
+ * @returns {this is *[]}
+ */
+const isEqual = (...objects) => objects.every(obj => JSON.stringify(obj) === JSON.stringify(objects[0]))
+
+/**
+ * 获取随机颜色
+ * @returns {`#${string}`}
+ */
+const getRandomColor = () => `#${Math.floor(Math.random() * 0xffffff).toString(16)}`
+
+/**
+ * 颜色格式转换
+ * @param hex
+ * @returns {number[]}
+ */
+const hexToRgb = hex => hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (_, r, g, b) => `#${r}${r}${g}${g}${b}${b}`).substring(1).match(/.{2}/g).map((x) => parseInt(x, 16))
+
+/**
+ * 获取随机ip
+ * @returns {string}
+ */
+const randomIp = () =>
+  Array(4)
+    .fill(0)
+    .map((_, i) => Math.floor(Math.random() * 255) + (i === 0 ? 1 : 0))
+    .join('.')
+
+/**
+ * 生成uuid
+ * @param a
+ * @returns {string|*}
+ */
+const uuid = (a) => (a ? (a ^ ((Math.random() * 16) >> (a / 4))).toString(16) : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, uuid))
